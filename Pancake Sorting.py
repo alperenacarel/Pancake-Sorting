@@ -33,23 +33,45 @@ class PancakeSorting(SearchProblem):
 
 num_pancake = int(input("Enter number of pancakes: "))
 
-for i in range(0, num_pancake):
-    GOAL += (i,)
-    action_list += (i,)
+def takeInput():
+    goal = ()
+    actions = ()
+    initial_console = ()
 
-ordering = input("Do you want to enter ordering: ")
-if ordering == "yes":
-    initial = tuple(int(x.strip()) for x in input(
-        "Enter top to bottom ordering between [0 - {}], seperated by spaces: ".format(num_pancake-1)).split(' '))
-    
-elif ordering == "no":
-    perm = tuple(permutations(GOAL))
-    initial = random.choice(perm)
-    
+    for i in range(0, num_pancake):
+        goal += (i,)
+        actions += (i,)
+
+    ordering = input("Do you want to enter ordering: ")
+    if ordering == "yes":
+        initial_console = tuple(int(x.strip()) for x in input(
+            "Enter top to bottom ordering between [0 - {}], seperated by spaces: ".format(num_pancake-1)).split(' '))
+        return goal, actions, initial_console
+
+    elif ordering == "no":
+        perm = tuple(permutations(goal))
+        print(perm)
+        initial_console = random.choice(perm)
+        return goal, actions, initial_console
+
+    else:
+        print("Please enter 'yes' or 'no'")
+        return takeInput()
+
+GOAL, action_list, initial = takeInput()
+
 print("initial state : ",initial)
 problem = PancakeSorting(initial_state=initial)
-
 result = astar(problem, viewer=myViewer, graph_search=True)
+
+res = str(result)
+res = res.replace("Node", "")
+res = res.replace("<", "")
+res = res.replace(">", "")
+
 print("{} result : {}".format("A*", result.path()))
-print("cost: ", result.cost)
+print("cost :", result.cost)
+print("final state : {}".format(res) )
 print(myViewer.stats)
+
+input("Press a button for quit...")
