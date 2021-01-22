@@ -1,4 +1,4 @@
-from simpleai.search import SearchProblem, breadth_first, astar, greedy, uniform_cost, iterative_limited_depth_first, depth_first, limited_depth_first
+from simpleai.search import SearchProblem, astar
 from itertools import permutations
 import random
 import functools 
@@ -50,7 +50,6 @@ def takeInput():
 
     elif ordering == "no":
         perm = tuple(permutations(goal))
-        print(perm)
         initial_console = random.choice(perm)
         return goal, actions, initial_console
 
